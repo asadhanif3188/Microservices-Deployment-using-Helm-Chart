@@ -8,3 +8,5 @@ First of all we'll be creating a custom helm chart using followng command.
 
 `helm create e-commerce_microservices_helm_chart`
 
+<img src="./screenshots/1-create-helm-chart.png" />
+
