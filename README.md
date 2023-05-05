@@ -10,3 +10,7 @@ First of all we'll be creating a custom helm chart using followng command.
 
 <img src="./screenshots/1-create-helm-chart.png" />
 
+After the execution of command, a default directory structure will be created as following: 
+ 
+<img src="./screenshots/2-heml-chart.png" />
+
