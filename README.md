@@ -440,6 +440,87 @@ we can verify the output of the Helm Chart using following commands.
 
 Another way to do the same is:
 
-`helm install --dry-run -f values/redis-values.yaml redis`
+`helm install --dry-run -f values/redis-values.yaml redis-chart redis`
 
-`helm install --dry-run -f values/frontend-service-values.yaml e-commerce_microservices_helm_chart`
+`helm install --dry-run -f values/frontend-service-values.yaml frontend-chart e-commerce_microservices_helm_chart`
+
+## Step 7: Deploy Both Helm Charts
+We have created our required Helm Charts, now it is time to deploy the microservices using these Helm Charts.
+
+To deploy the Helm Charts we are going to use **Helmfile**. It is a declarative way for deploying helm charts. 
+
+Contents of **helmfile.yaml** are:
+
+```
+releases:
+  - name: rediscart
+    chart: redis
+    values:
+      - values/redis-values.yaml
+  
+  - name: recommendationservice
+    chart: e-commerce_microservices_helm_chart
+    values:
+      - values/recommendation-service-values.yaml
+  
+  - name: productcatalogservice
+    chart: e-commerce_microservices_helm_chart
+    values:
+      - values/productcatalog-service-values.yaml
+  
+  - name: paymentservice
+    chart: e-commerce_microservices_helm_chart
+    values:
+      - values/payment-service-values.yaml
+  
+  - name: currencyservice
+    chart: e-commerce_microservices_helm_chart
+    values:
+      - values/currency-service-values.yaml
+  
+  - name: shippingservice
+    chart: e-commerce_microservices_helm_chart
+    values:
+      - values/shipping-service-values.yaml
+  
+  - name: adservice
+    chart: e-commerce_microservices_helm_chart
+    values:
+      - values/ad-service-values.yaml
+  
+  - name: cartservice
+    chart: e-commerce_microservices_helm_chart
+    values:
+      - values/cart-service-values.yaml
+  
+  - name: checkoutservice
+    chart: e-commerce_microservices_helm_chart
+    values:
+      - values/checkout-service-values.yaml
+  
+  - name: frontend
+    chart: e-commerce_microservices_helm_chart
+    values:
+      - values/frontend-service-values.yaml
+```
+
+To apply this file, first of all install the helmfile utility using following commands:
+
+```
+wget -O helmfile_linux_amd64 https://github.com/roboll/helmfile/releases/download/v0.144.0/helmfile_linux_amd64
+chmod +x helmfile_linux_amd64
+mv helmfile_linux_amd64 ~/.local/bin/helmfile
+```
+
+Final step is to run the helmfile to deploy the microservices.
+
+`helmfile sync`
+
+Check the releases.
+
+`helmfile list`
+
+See the running Pods.
+
+`kubectl get pods`
+
