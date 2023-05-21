@@ -434,8 +434,12 @@ appReplicas: 2
 
 we can verify the output of the Helm Chart using following commands.
 
-`helm template -f values\redis-values.yaml redis`
+`helm template -f values/redis-values.yaml redis`
 
-`helm template -f values\frontend-service-values.yaml e-commerce_microservices_helm_chart`
+`helm template -f values/frontend-service-values.yaml e-commerce_microservices_helm_chart`
 
+Another way to do the same is:
 
+`helm install --dry-run -f values/redis-values.yaml redis`
+
+`helm install --dry-run -f values/frontend-service-values.yaml e-commerce_microservices_helm_chart`
