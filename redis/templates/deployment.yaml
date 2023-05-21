@@ -1,24 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redis-cart
+  name: {{ .Values.appName }}
 spec:
+  replicas: {{ .Values.appReplicas }}
   selector:
     matchLabels:
-      app: redis-cart
+      app: {{ .Values.appName }}
   template:
     metadata:
       labels:
-        app: redis-cart
+        app: {{ .Values.appName }}
     spec:
       containers:
-      - name: redis
-        image: redis:alpine
+      - name: {{ .Values.appName }}
+        image: "{{ .Values.appImage }}:{{ .Values.appVersion }}"
         ports: 
-        - containerPort: 6379
+        - containerPort: {{ .Values.containerPort }}
         volumeMounts:
-        - name: redis-data
-          mountPath: /data
+        - name: {{ .Values.volumeName }}
+          mountPath: {{ .Values.containerMountPath }}
       volumes: 
-      - name: redis-data
+      - name: {{ .Values.volumeName }}
         emptyDir: {}

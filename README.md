@@ -358,4 +358,84 @@ Since redis has its own lifecycle so we need to create another Helm Chart.
 
 `helm create redis`
 
+<img src="./screenshots/4-redis-heml-chart.png" width="40%"/>
+
+
+## Step 5: Define Deployment and Service Template files
+
+**deployment.yaml** file contains following contents: 
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}
+spec:
+  replicas: {{ .Values.appReplicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+      - name: {{ .Values.appName }}
+        image: "{{ .Values.appImage }}:{{ .Values.appVersion }}"
+        ports: 
+        - containerPort: {{ .Values.containerPort }}
+        volumeMounts:
+        - name: {{ .Values.volumeName }}
+          mountPath: {{ .Values.containerMountPath }}
+      volumes: 
+      - name: {{ .Values.volumeName }}
+        emptyDir: {}
+```
+
+**service.yaml** file contains following contents: 
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.appName }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .Values.appName }}
+  ports:
+  - protocol: TCP 
+    port: {{ .Values.servicePort }}
+    targetPort: {{ .Values.containerPort }}
+```
+
+**values.yaml** file contains following contents: 
+
+```
+appName: redis
+appReplicas: 1
+appImage: redis
+appVersion: alpine
+containerPort: 6379
+servicePort: 6379
+volumeName: redis-data
+containerMountPath: /data
+```
+
+**values/redis-values.yaml** file contains following contents: 
+
+```
+appName: redis-cart
+appReplicas: 2
+```
+
+## Step 6: Verify the Template files of Helm chart
+
+we can verify the output of the Helm Chart using following commands.
+
+`helm template -f values\redis-values.yaml redis`
+
+`helm template -f values\frontend-service-values.yaml e-commerce_microservices_helm_chart`
+
 
