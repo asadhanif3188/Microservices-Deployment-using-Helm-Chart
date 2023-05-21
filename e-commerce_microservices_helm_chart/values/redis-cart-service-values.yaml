@@ -1,0 +1,11 @@
+# variables of deployment
+appName: redis-cart
+appReplicas: 1
+appImage: redis:alpine
+appVersion: v0.6.0
+containerPort: 6379
+
+
+# variables of service
+serviceType: ClusterIP
+servicePort: 6379

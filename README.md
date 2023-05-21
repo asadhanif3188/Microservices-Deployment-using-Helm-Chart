@@ -132,5 +132,66 @@ serviceType: ClusterIP
 servicePort: 5000
 ```
 
+**recommendation-service-values.yaml**
 
+```
+# variables of deployment
+appName: recommendationservice
+appReplicas: 1
+appImage: gcr.io/google-samples/microservices-demo/recommendationservice
+appVersion: v0.6.0
+containerPort: 8080
+containerEnvVars:
+- name: PORT
+  value: "8080"
+- name: PRODUCT_CATALOG_SERVICE_ADDR
+  value: "productcatalogservice:3550"
+- name: DISABLE_TRACING
+  value: "1"
+- name: DISABLE_PROFILER
+  value: "1"
+
+# variables of service
+serviceType: ClusterIP
+servicePort: 8080
+```
+
+**productcatalog-service-values.yaml**
+
+```
+# variables of deployment
+appName: productcatalogservice
+appReplicas: 1
+appImage: gcr.io/google-samples/microservices-demo/productcatalogservice
+appVersion: v0.6.0
+containerPort: 3550
+containerEnvVars:
+- name: PORT
+  value: "3550"
+
+# variables of service
+serviceType: ClusterIP
+servicePort: 3550
+```
+
+**-service-values.yaml**
+
+```
+
+```
+
+**-service-values.yaml**
+
+```
+```
+
+**-service-values.yaml**
+
+```
+```
+
+**-service-values.yaml**
+
+```
+```
 
