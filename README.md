@@ -512,7 +512,7 @@ chmod +x helmfile_linux_amd64
 mv helmfile_linux_amd64 ~/.local/bin/helmfile
 ```
 
-Final step is to run the helmfile to deploy the microservices.
+Final step is to **run the helmfile** to deploy the microservices.
 
 `helmfile sync`
 
@@ -523,4 +523,8 @@ Check the releases.
 See the running Pods.
 
 `kubectl get pods`
+
+**Uninstall** the releases.
+
+`helmfile destroy`
 
