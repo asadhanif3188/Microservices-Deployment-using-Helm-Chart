@@ -22,5 +22,17 @@ First of all we'll be creating a custom helm chart using followng command.
 
 After the execution of command, a default directory structure will be created as following: 
  
-<img src="./screenshots/2-heml-chart.png" />
+<img src="./screenshots/2-heml-chart.png" width="60%"/>
+
+We are going to delete mostly default template files to create our own. Delete following files from the **template** directory:
+- _helpers.tpl
+- hpa.yaml
+- ingress.yaml
+- NOTES.txr
+- serviceaccount.yaml 
+
+Our new directory structure will look like. 
+
+<img src="./screenshots/3-heml-chart-updated-directory-structure.png" width="60%"/>
+
 
