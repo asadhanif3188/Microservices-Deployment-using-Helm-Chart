@@ -286,21 +286,6 @@ serviceType: ClusterIP
 servicePort: 7070
 ```
 
-**redis-cart-service-values.yaml**
-
-```
-# variables of deployment
-appName: redis-cart
-appReplicas: 1
-appImage: redis:alpine
-appVersion: v0.6.0
-containerPort: 6379
-
-# variables of service
-serviceType: ClusterIP
-servicePort: 6379
-```
-
 **checkout-service-values.yaml**
 
 ```
@@ -367,4 +352,10 @@ serviceType: LoadBalancer
 servicePort: 8080
 nodePort: 30007
 ```
+
+## Step 4: Create Helm Chart for Redis
+Since redis has its own lifecycle so we need to create another Helm Chart. 
+
+`helm create redis`
+
 
