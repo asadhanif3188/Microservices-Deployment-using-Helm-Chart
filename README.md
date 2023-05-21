@@ -108,7 +108,7 @@ serviceType: ClusterIP
 servicePort: 8080
 ```
 
-We'll define actual values of these variables in separate file for each microservice. 
+We'll define actual values of these variables in separate files for each microservice. 
 
 **email-service-values.yaml**
 
