@@ -516,6 +516,8 @@ Final step is to **run the helmfile** to deploy the microservices.
 
 `helmfile sync`
 
+<img src="./screenshots/5-helmfile-sync.png" width="60%"/>
+
 Check the releases.
 
 `helmfile list`
@@ -524,7 +526,11 @@ See the running Pods.
 
 `kubectl get pods`
 
+<img src="./screenshots/6-running-pods.png" width="60%"/>
+
+
+<img src="./screenshots/7-online-app.png" width="60%"/>
+
 **Uninstall** the releases.
 
 `helmfile destroy`
-
