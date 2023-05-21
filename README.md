@@ -22,7 +22,7 @@ First of all we'll be creating a custom helm chart using followng command.
 
 After the execution of command, a default directory structure will be created as following: 
  
-<img src="./screenshots/2-heml-chart.png" width="60%"/>
+<img src="./screenshots/2-heml-chart.png" width="40%"/>
 
 We are going to delete mostly default template files to create our own. Delete following files from the **template** directory:
 - _helpers.tpl
@@ -33,6 +33,54 @@ We are going to delete mostly default template files to create our own. Delete f
 
 Our new directory structure will look like. 
 
-<img src="./screenshots/3-heml-chart-updated-directory-structure.png" width="60%"/>
+<img src="./screenshots/3-heml-chart-updated-directory-structure.png" width="40%"/>
 
+## Step 2: Create Template Files for Deployment and Service
+Now we need to create a template files for deployment and service. 
+
+**Deployment template file** contents: 
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}
+spec:
+  replicas: {{ .Values.appReplicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+        - name: {{ .Values.appName }}
+          image: "{{ .Values.appImage }}:{{ .Values.appVersion }}"
+          ports:
+            - name: http
+              containerPort: {{ .Values.containerPort }}
+              protocol: TCP
+          env:
+          {{-range .Values.containerEnvVars }}
+            - name: {{ .key }}
+              value: {{ .value | quote }}
+          {{-end }}
+```
+
+**Service template file** contents: 
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.appName }}
+spec:
+  type: {{ .Values.serviceType }}
+  selector:
+    app: {{ .Values.appName }}
+  ports:
+    - port: {{ .Values.servicePort }}
+      targetPort: {{ .Values.containerPort }}
+      protocol: TCP
+```
 
