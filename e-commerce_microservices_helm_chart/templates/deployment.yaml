@@ -20,7 +20,7 @@ spec:
               containerPort: {{ .Values.containerPort }}
               protocol: TCP
           env:
-          {{-range .Values.containerEnvVars }}
-            - name: {{ .key }}
+          {{- range .Values.containerEnvVars }}
+            - name: {{ .name }}
               value: {{ .value | quote }}
-          {{-end }}
+          {{- end }}

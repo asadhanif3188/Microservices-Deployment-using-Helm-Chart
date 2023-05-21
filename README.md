@@ -33,7 +33,7 @@ We are going to delete mostly default template files to create our own. Delete f
 
 Our new directory structure will look like. 
 
-<img src="./screenshots/3-heml-chart-updated-directory-structure.png" width="40%"/>
+<img src="./screenshots/3-heml-chart-updated-directory-structure.png" width="35%"/>
 
 ## Step 2: Create Template Files for Deployment and Service
 Now we need to create a template files for deployment and service. 
@@ -62,10 +62,10 @@ spec:
               containerPort: {{ .Values.containerPort }}
               protocol: TCP
           env:
-          {{-range .Values.containerEnvVars }}
-            - name: {{ .key }}
+          {{- range .Values.containerEnvVars }}
+            - name: {{ .name }}
               value: {{ .value | quote }}
-          {{-end }}
+          {{- end }}
 ```
 
 **Service template file** contents: 
@@ -83,4 +83,54 @@ spec:
       targetPort: {{ .Values.containerPort }}
       protocol: TCP
 ```
+
+## Step 3: Define Values for Deployment and Service Template files
+
+It is time to define values for all microservices. 
+
+Our **values.yaml** file contains following template based contents: 
+
+```
+# variables of deployment
+appName: servicename
+appReplicas: 1
+appImage: 
+appVersion: v1.0.0
+containerPort: 8080
+containerEnvVars:
+- name: ENV_VAR_ONE
+  value: "valueone"
+- key: ENV_VAR_TWO
+  name: "valuetwo"
+
+# variables of service
+serviceType: ClusterIP
+servicePort: 8080
+```
+
+We'll define actual values of these variables in separate file for each microservice. 
+
+**email-service-values.yaml**
+
+```
+# variables of deployment
+appName: emailservice
+appReplicas: 1
+appImage: gcr.io/google-samples/microservices-demo/emailservice
+appVersion: v0.6.0
+containerPort: 8080
+containerEnvVars:
+- name: PORT
+  value: "8080"
+- name: DISABLE_TRACING
+  value: "1"
+- name: DISABLE_PROFILER
+  value: "1"
+
+# variables of service
+serviceType: ClusterIP
+servicePort: 5000
+```
+
+
 
