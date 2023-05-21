@@ -174,24 +174,197 @@ serviceType: ClusterIP
 servicePort: 3550
 ```
 
-**-service-values.yaml**
+**payment-service-values.yaml**
 
 ```
+# variables of deployment
+appName: paymentservice
+appReplicas: 1
+appImage: gcr.io/google-samples/microservices-demo/paymentservice
+appVersion: v0.2.3
+containerPort: 50051
+containerEnvVars:
+- name: PORT
+  value: "50051"
+- name: DISABLE_TRACING
+  value: "1"
+- name: DISABLE_PROFILER
+  value: "1"
 
+# variables of service
+serviceType: ClusterIP
+servicePort: 50051
 ```
 
-**-service-values.yaml**
+**currency-service-values.yaml**
 
 ```
+# variables of deployment
+appName: currencyservice
+appReplicas: 1
+appImage: gcr.io/google-samples/microservices-demo/currencyservice
+appVersion: v0.2.3
+containerPort: 7000
+containerEnvVars:
+- name: PORT
+  value: "7000"
+- name: DISABLE_TRACING
+  value: "1"
+- name: DISABLE_PROFILER
+  value: "1"
+
+# variables of service
+serviceType: ClusterIP
+servicePort: 7000
 ```
 
-**-service-values.yaml**
+**shipping-service-values.yaml**
 
 ```
+# variables of deployment
+appName: shippingservice
+appReplicas: 1
+appImage: gcr.io/google-samples/microservices-demo/shippingservice
+appVersion: v0.6.0
+containerPort: 50051
+containerEnvVars:
+- name: PORT
+  value: "50051"
+- name: DISABLE_TRACING
+  value: "1"
+- name: DISABLE_PROFILER
+  value: "1"
+
+# variables of service
+serviceType: ClusterIP
+servicePort: 50051
 ```
 
-**-service-values.yaml**
+**ad-service-values.yaml**
 
 ```
+# variables of deployment
+appName: adservice
+appReplicas: 1
+appImage: gcr.io/google-samples/microservices-demo/adservice
+appVersion: v0.6.0
+containerPort: 9555
+containerEnvVars:
+- name: PORT
+  value: "9555"
+- name: DISABLE_TRACING
+  value: "1"
+- name: DISABLE_PROFILER
+  value: "1"
+
+# variables of service
+serviceType: ClusterIP
+servicePort: 9555
+```
+
+**cart-service-values.yaml**
+
+```
+# variables of deployment
+appName: cartservice
+appReplicas: 1
+appImage: gcr.io/google-samples/microservices-demo/cartservice
+appVersion: v0.6.0
+containerPort: 7070
+containerEnvVars:
+- name: PORT
+  value: "7070"
+- name: REDIS_ADDR
+  value: "redis-cart:6379"
+- name: DISABLE_TRACING
+  value: "1"
+- name: DISABLE_PROFILER
+  value: "1"
+
+# variables of service
+serviceType: ClusterIP
+servicePort: 7070
+```
+
+**redis-cart-service-values.yaml**
+
+```
+# variables of deployment
+appName: redis-cart
+appReplicas: 1
+appImage: redis:alpine
+appVersion: v0.6.0
+containerPort: 6379
+
+# variables of service
+serviceType: ClusterIP
+servicePort: 6379
+```
+
+**checkout-service-values.yaml**
+
+```
+# variables of deployment
+appName: checkoutservice
+appReplicas: 1
+appImage: gcr.io/google-samples/microservices-demo/checkoutservice
+appVersion: v0.6.0
+containerPort: 5050
+containerEnvVars:
+- name: PORT
+  value: "5050"
+- name: PRODUCT_CATALOG_SERVICE_ADDR
+  value: "productcatalogservice:3550"
+- name: SHIPPING_SERVICE_ADDR
+  value: "shippingservice:50051"
+- name: PAYMENT_SERVICE_ADDR
+  value: "paymentservice:50051"
+- name: EMAIL_SERVICE_ADDR
+  value: "emailservice:5000"
+- name: CURRENCY_SERVICE_ADDR
+  value: "currencyservice:7000"
+- name: CART_SERVICE_ADDR
+  value: "cartservice:7070"
+- name: DISABLE_TRACING
+  value: "1"
+- name: DISABLE_PROFILER
+  value: "1"
+
+# variables of service
+serviceType: ClusterIP
+servicePort: 5050
+```
+
+**frontend-service-values.yaml**
+
+```
+# variables of deployment
+appName: frontend
+appReplicas: 1
+appImage: gcr.io/google-samples/microservices-demo/frontend
+appVersion: v0.2.3
+containerPort: 8080
+containerEnvVars:
+- name: PORT
+  value: "8080"
+- name: PRODUCT_CATALOG_SERVICE_ADDR
+  value: "productcatalogservice:3550"
+- name: CURRENCY_SERVICE_ADDR
+  value: "currencyservice:7000"
+- name: CART_SERVICE_ADDR
+  value: "cartservice:7070"
+- name: RECOMMENDATION_SERVICE_ADDR
+  value: "recommendationservice:8080"
+- name: SHIPPING_SERVICE_ADDR
+  value: "shippingservice:50051"
+- name: CHECKOUT_SERVICE_ADDR
+  value: "checkoutservice:5050"
+- name: AD_SERVICE_ADDR
+  value: "adservice:9555"
+
+# variables of service
+serviceType: LoadBalancer
+servicePort: 8080
+nodePort: 30007
 ```
 
